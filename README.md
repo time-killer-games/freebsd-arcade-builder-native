@@ -1,4 +1,4 @@
-Please see "Releases" for Important information regarding this repository. Do not confuse this repository with the original Potabi Operating System by Kai Lyons which it is based on.
+Please see "Releases" for Important information regarding this repository. Do not confuse this repository with the original Potabi Operating System by Kai Lyons which it is based on. Original Project here: https://github.com/Potabi/potabi-build
 
 <br><div align="center">
     <img src="https://raw.githubusercontent.com/Potabi/potabi.com/images/logo.png" width="72" alt="The Potabi Systems Project by the Potabi Foundation.">
