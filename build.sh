@@ -29,9 +29,9 @@ setup(){
     # Create and mount pool
     truncate -s 6g ${livecd}/pool.img
     mdconfig -a -t vnode -f ${livecd}/pool.img -u 0
-    zpool create potabi /dev/md0
-    zfs set mountpoint=${release} potabi 
-    zfs set compression=gzip-6 potabi
+    zpool create freebsd /dev/md0
+    zfs set mountpoint=${release} freebsd 
+    zfs set compression=gzip-6 freebsd
 
     # UFS alternative code (just in case)
     # gpart create -s GPT md0
@@ -66,14 +66,14 @@ build(){
     chroot ${release} pkg install -y pkg
     
     # Add software overlays 
-    mkdir -pv ${release}/usr/local/general ${release}/usr/local/potabi
+    mkdir -pv ${release}/usr/local/general ${release}/usr/local/freebsd
 
     rm ${release}/etc/resolv.conf
     umount ${release}/var/cache/pkg
 
     # Move source files
-    cp ${base}/base.txz ${release}/usr/local/potabi/base.txz
-    cp ${base}/kernel.txz ${release}/usr/local/potabi/kernel.txz
+    cp ${base}/base.txz ${release}/usr/local/freebsd/base.txz
+    cp ${base}/kernel.txz ${release}/usr/local/freebsd/kernel.txz
     
     # rc
     . ${srcdir}/setuprc.sh
@@ -100,7 +100,7 @@ build(){
     chmod 777 ${release}/usr/local/etc/rc.d/login.sh
     echo "kern.corefile=/dev/null" > ${release}/etc/sysctl.conf
     echo "kern.coredump=0" >> ${release}/etc/sysctl.conf
-    echo "startx" >> ${release}/root/.login
+    echo "startx -- -nocursor" >> ${release}/root/.login
     chmod 777 ${release}/root/.login
     echo "twm -display :0 &" > ${release}/root/start.sh
     echo "sleep 5" >> ${release}/root/start.sh
@@ -111,8 +111,38 @@ build(){
     echo "  Identifier  \"Card0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
     echo "  Driver  \"scfb\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
     echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "Section \"Monitor\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  Identifier \"Monitor0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  HorizSync 30.0-62.0" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  VertRefresh 50.0-70.0" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "Section \"Screen\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  Identifier \"Screen0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  Monitor \"Monitor0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  Device \"Card0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  DefaultDepth 24" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  SubSection \"Display\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "    Depth 24" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "    Modes \"640x480\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "  EndSubSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
+    echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
     echo "Section  \"Device\"" > ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "  Identifier  \"Card0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "Section \"Monitor\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  Identifier \"Monitor0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  HorizSync 30.0-62.0" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  VertRefresh 50.0-70.0" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "Section \"Screen\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  Identifier \"Screen0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  Monitor \"Monitor0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  Device \"Card0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  DefaultDepth 24" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  SubSection \"Display\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "    Depth 24" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "    Modes \"640x480\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
+    echo "  EndSubSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/executable-amd64 -o ${release}/root/executable
     chmod 777 ${release}/root/executable
@@ -133,8 +163,8 @@ build(){
     # Uzips
     install -o root -g wheel -m 755 -d "${cdroot}"
     mkdir -pv "${cdroot}/data"
-    zfs snapshot potabi@clean
-    zfs send -c -e potabi@clean | dd of=/usr/local/potabi-build/cdroot/data/system.img status=progress bs=1M
+    zfs snapshot freebsd@clean
+    zfs send -c -e freebsd@clean | dd of=/usr/local/freebsd-build/cdroot/data/system.img status=progress bs=1M
 
     # Ramdisk
     ramdisk_root="${cdroot}/data/ramdisk"
@@ -143,7 +173,7 @@ build(){
     tar -cf - rescue | tar -xf - -C "${ramdisk_root}"
     cd "${prjdir}"
     install -o root -g wheel -m 755 "${rmddir}/init.sh.in" "${ramdisk_root}/init.sh"
-    sed "s/@VOLUME@/POTABI/" "${rmddir}/init.sh.in" > "${ramdisk_root}/init.sh"
+    sed "s/@VOLUME@/FreeBSD/" "${rmddir}/init.sh.in" > "${ramdisk_root}/init.sh"
     mkdir -pv "${ramdisk_root}/dev"
     mkdir -pv "${ramdisk_root}/etc"
     touch "${ramdisk_root}/etc/fstab"
@@ -160,7 +190,7 @@ build(){
     echo "CDRoot directory listed as: ${cdroot}"
     cp -r ${boodir}/* ${cdroot}/boot/.
     mkdir -pv ${cdroot}/etc
-    cd ${prjdir} && zpool export potabi && while zpool status potabi >/dev/null; do :; done 2>/dev/null
+    cd ${prjdir} && zpool export freebsd && while zpool status freebsd >/dev/null; do :; done 2>/dev/null
 }
 
 image(){

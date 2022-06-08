@@ -17,9 +17,9 @@ makedir=${makedir:-"/cdrom"}
 echo "==> Make mountpoints /cdrom"
 mkdir -p ${makedir}
 
-echo "Waiting for Potabi media to initialize"
+echo "Waiting for FreeBSD media to initialize"
 while : ; do
-    [ -e "/dev/iso9660/POTABI" ] && echo "found /dev/iso9660/POTABI" && sleep 2 && break
+    [ -e "/dev/iso9660/FreeBSD" ] && echo "found /dev/iso9660/FreeBSD" && sleep 2 && break
     sleep 2
 done
 
@@ -37,7 +37,7 @@ y=$(sysctl -n hw.physmem)
 echo "Required memory ${x} for memdisk"
 echo "Detected memory ${y} for memdisk"
 if [ $x -gt $y ] ; then
-  echo "Potabi requires 4GB of memory for memdisk, and operation!"
+  echo "FreeBSD requires 4GB of memory for memdisk, and operation!"
   echo "Type exit, and press enter after entering the rescue shell to power off."
   exit 1
 fi
