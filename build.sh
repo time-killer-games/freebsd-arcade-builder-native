@@ -114,7 +114,7 @@ build(){
     echo "Section  \"Device\"" > ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "  Identifier  \"Card0\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
-    fetch https://github.com/time-killer-games/freebsd-arcadebuilder/releases/download/v1.0.0.0/executable-amd64 -o ${release}/root/executable
+    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/executable-amd64 -o ${release}/root/executable
     chmod 777 ${release}/root/executable
 
     # Extra configuration (borrowed from GhostBSD builder)
