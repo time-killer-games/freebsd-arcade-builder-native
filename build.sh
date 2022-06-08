@@ -173,7 +173,7 @@ build(){
     tar -cf - rescue | tar -xf - -C "${ramdisk_root}"
     cd "${prjdir}"
     install -o root -g wheel -m 755 "${rmddir}/init.sh.in" "${ramdisk_root}/init.sh"
-    sed "s/@VOLUME@/FreeBSD/" "${rmddir}/init.sh.in" > "${ramdisk_root}/init.sh"
+    sed "s/@VOLUME@/FREEBSD/" "${rmddir}/init.sh.in" > "${ramdisk_root}/init.sh"
     mkdir -pv "${ramdisk_root}/dev"
     mkdir -pv "${ramdisk_root}/etc"
     touch "${ramdisk_root}/etc/fstab"
