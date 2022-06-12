@@ -144,9 +144,9 @@ build(){
     echo "    Modes \"640x480\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "  EndSubSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
-    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/run -o ${release}/root/run
-    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/k2s -o ${release}/root/k2s
-    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/fbm -o ${release}/root/fbm
+    fetch https://github.com/time-killer-games/freebsd-arcade-builder/releases/download/v1.0.0.0/run -o ${release}/root/run # Example Menu
+    fetch https://github.com/time-killer-games/freebsd-arcade-builder/releases/download/v1.0.0.0/k2s -o ${release}/root/k2s # Example Game
+    fetch https://github.com/time-killer-games/freebsd-arcade-builder/releases/download/v1.0.0.0/fbm -o ${release}/root/fbm # Example Game
     chmod 777 ${release}/root/run
     chmod 777 ${release}/root/k2s
     chmod 777 ${release}/root/fbm
