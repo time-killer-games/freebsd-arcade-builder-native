@@ -96,7 +96,7 @@ build(){
     echo "NoTitle" >> ${release}/root/.twmrc
     echo "/root/start.sh" > ${release}/root/.xinitrc
     chmod 777 ${release}/root/.xinitrc
-    cp -f "${0%/*}/src/login.sh" ${release}/usr/local/etc/rc.d/login.sh
+    cp -f "${srcdir}/login.sh" ${release}/usr/local/etc/rc.d/login.sh
     chmod 777 ${release}/usr/local/etc/rc.d/login.sh
     echo "kern.corefile=/dev/null" > ${release}/etc/sysctl.conf
     echo "kern.coredump=0" >> ${release}/etc/sysctl.conf
