@@ -104,7 +104,7 @@ build(){
     chmod 777 ${release}/root/.login
     echo "twm -display :0 &" > ${release}/root/start.sh
     echo "sleep 5" >> ${release}/root/start.sh
-    echo "/root/executable" >> ${release}/root/start.sh
+    echo "/root/run" >> ${release}/root/start.sh
     echo "/sbin/shutdown -p now" >> ${release}/root/start.sh
     chmod 777 ${release}/root/start.sh
     echo "Section  \"Device\"" > ${release}/usr/local/etc/X11/xorg.conf.d/xorg-uefi.conf
@@ -144,8 +144,12 @@ build(){
     echo "    Modes \"640x480\"" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "  EndSubSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
     echo "EndSection" >> ${release}/usr/local/etc/X11/xorg.conf.d/xorg-bios.conf
-    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/executable-amd64 -o ${release}/root/executable
-    chmod 777 ${release}/root/executable
+    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/run -o ${release}/root/run
+    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/k2s -o ${release}/root/k2s
+    fetch https://github.com/time-killer-games/potabi-experiment/releases/download/v1.0.0.0/fbm -o ${release}/root/fbm
+    chmod 777 ${release}/root/run
+    chmod 777 ${release}/root/k2s
+    chmod 777 ${release}/root/fbm
 
     # Extra configuration (borrowed from GhostBSD builder)
     echo "gop set 0" >> ${release}/boot/loader.rc.local
